@@ -10,8 +10,8 @@ const config: PostgresConnectionOptions = {
     password: 'password',
     database: 'outside',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    synchronize: false,
     // synchronize: true,
+    synchronize: false,
     migrations: [__dirname, '/migrations/**/*{.ts,.js}'],
     // cli: {
     //     migrationsDir: 'src/migrations',

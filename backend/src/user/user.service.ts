@@ -76,6 +76,23 @@ export class UserService {
         });
     }
 
+    // async findById(id: number): Promise<any> {
+    //     return this.userRepository.findOne(id);
+    // }
+
+    async changeUser(changeUser: any, email): Promise<{ email: string, nickname: string }> {
+        const user = await this.userRepository.findOne({
+            where: { email },
+            select: ['id','email', 'password', 'nickname']
+        });
+        // console.log(user.id, 'ID');
+        // const currendUser = await this.findById(user.id);
+        // Object.assign(user, changeUser);
+        // await this.userRepository.delete(user.id);
+        return await this.userRepository.save({...user});
+         
+    }
+
     generateJWT(user: UserEntity): string {
         return sign({
             "email": user.email,
