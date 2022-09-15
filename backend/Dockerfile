@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY package*.json ./
 
+RUN npm install -g npm@8.19.2
+
+RUN npm i -g @nestjs/cli
+
 RUN npm i
 
 ADD . .

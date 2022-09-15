@@ -63,7 +63,7 @@ export class TagController {
         const sortTags = await this.tagService.sortTags();
         return {
             data: [
-                // todo доделать !!
+                // todo !!
             ],
             "meta": {
                 "offset": Number(params.offset),
