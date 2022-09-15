@@ -1,6 +1,8 @@
 #
+запуск проекта ->
+docker-compose up
+#
 url swagger ->
 http://localhost:3000/api
 #
-vps = 0.0.0.0:3000
-#
+https://github.com/kisilya/test-tasks/tree/main/nodeJS

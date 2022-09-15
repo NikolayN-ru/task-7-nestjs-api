@@ -8,10 +8,11 @@ const config: PostgresConnectionOptions = {
     port: 5432,
     username: 'postgres',
     password: 'password',
-    database: 'outside',
+    database: 'postgres',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    synchronize: false,
-    migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+    synchronize: true,
+    // synchronize: false,
+    // migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
 }
 
 export default config;

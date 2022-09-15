@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { TagEntity } from "./tag.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-// import { UserEntity } from "src/user/user.entity";
 
 @Injectable()
 export class TagService {
@@ -10,8 +9,6 @@ export class TagService {
     constructor(
         @InjectRepository(TagEntity)
         private readonly tagRepository: Repository<TagEntity>,
-        // @InjectRepository(UserEntity)
-        // private readonly userRepository: Repository<UserEntity>,
     ) { }
 
     async findAllTags(): Promise<TagEntity[]> {
@@ -58,11 +55,9 @@ export class TagService {
     }
 
     async changeTag(candidate, createTagDto, user): Promise<TagEntity> {
-        // const candidate = await this.tagRepository.findOne({ where: { id } });
-        // console.log(candidate.creator === user.uuid);
         if (candidate.creator === user.uuid) {
 
-        } else{
+        } else {
             throw new HttpException(
                 'этот пользователь не может менять тег', HttpStatus.UNPROCESSABLE_ENTITY
             );
@@ -77,11 +72,8 @@ export class TagService {
         await this.tagRepository.save(candidate);
         return candidate;
     }
-    // async findUser(uuid): Promise<UserEntity> {
-    // return this.userRepository.findOne({ where: { uuid } });
-    // }
 
-    async deleteTag(id): Promise<any>{
+    async deleteTag(id): Promise<any> {
         return await this.tagRepository.delete({ id: id });
     }
 }
