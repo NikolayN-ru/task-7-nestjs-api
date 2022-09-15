@@ -55,7 +55,7 @@ export class TagController {
     }
 
     @Get('tag')
-    // @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard)
     async getSortTags(
         @Query() params: any,
     ): Promise<any> {
@@ -81,8 +81,6 @@ export class TagController {
         @User() user: UserEntity,
     ): Promise<any> {
         const candidate = await this.tagService.searchTagById(id);
-        // const user = await this.userService.findUser(candidate.creator);
-
         const tag = await this.tagService.changeTag(candidate, createTagDto, user);
         return {
             "creator": {

@@ -54,9 +54,7 @@ export class UserController {
         @Body() changeUserDto: ChangeUserDto,
         @User('id') userId: string,
     ): Promise<{ email: string, nickname: string }> {
-        // console.log(userId);
         const user = await this.userService.changeUser(changeUserDto, userId);
-        // return this.userService.buildUserResponse(user);
         return {
             'email': user.email,
             'nickname': user.nickname

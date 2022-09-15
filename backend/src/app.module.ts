@@ -4,7 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import ormconfig from './ormconfig';
 import { TagModule } from './tag/tag.module';
-import { TelegramModule } from './telegram/telegram.module';
 import { AuthMeddleware } from './user/middlewares/auth.middleware';
 import { UserModule } from './user/user.module';
 
@@ -12,7 +11,6 @@ import { UserModule } from './user/user.module';
   imports: [
     TypeOrmModule.forRoot(ormconfig),
     TagModule,
-    TelegramModule,
     UserModule
   ],
   controllers: [AppController],

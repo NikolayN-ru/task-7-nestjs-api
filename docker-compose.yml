@@ -1,7 +1,21 @@
 version: '3.8'
 services:
-  postgres11:
-    # hostname: postgres_db_3
+ backend:
+    build: ./backend
+    container_name: backend-NestJs4
+    command: npm run start:dev
+    restart: always
+    volumes:
+      - './backend:/app'
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - postgres11
+    networks:
+      - lb-docker-network
+
+ postgres11:
     image: postgres:11
     container_name: postgres11_3
     restart: unless-stopped
@@ -15,10 +29,6 @@ services:
     networks:
       - lb-docker-network
 
-      
-# networks:
-  # backend:
-    # driver: custom-driver-2
 networks:
   lb-docker-network:
     driver: bridge

@@ -73,7 +73,6 @@ export class UserService {
                 'пароль неверный', HttpStatus.UNPROCESSABLE_ENTITY
             );
         }
-
         return await user;
     }
 
@@ -94,16 +93,7 @@ export class UserService {
         return this.userRepository.findOne({ where: { id } });
     }
 
-    // async findById(id: number): Promise<any> {
-    //     return this.userRepository.findOne(id);
-    // }
-
     async changeUser(changeUser: any, id): Promise<{ email: string, nickname: string }> {
-        // const user = await this.userRepository.findOne({
-        //     where: { email },
-        //     select: ['id', 'email', 'password', 'nickname']
-        // });
-
         const userByEmail = await this.userRepository.findOne({
             where: {
                 email: changeUser.email
@@ -121,14 +111,12 @@ export class UserService {
             );
         }
 
-        const user = await this.userRepository.findOne({ where: { id },
-            select: ['id', 'uuid', 'email', 'password', 'nickname'] });
-        // console.log(user.id, 'ID');
-        // const currendUser = await this.findById(user.id);
-        // await this.userRepository.delete(user.id);
+        const user = await this.userRepository.findOne({
+            where: { id },
+            select: ['id', 'uuid', 'email', 'password', 'nickname']
+        });
         Object.assign(user, changeUser);
         return await this.userRepository.save(user);
-
     }
 
     async findUser(uuid): Promise<UserEntity> {
