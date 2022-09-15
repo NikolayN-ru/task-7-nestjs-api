@@ -17,6 +17,20 @@ export class UserService {
     ) { }
 
     async createUser(createUserDto): Promise<UserEntity> {
+        const reg = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/
+        const myArray = reg.exec(createUserDto.password);
+
+        if (!Array.isArray(myArray)) {
+            throw new HttpException(
+                'придумайте более сложный пароль', HttpStatus.UNPROCESSABLE_ENTITY
+            );
+        }
+
+        if (createUserDto.password.length < 8) {
+            throw new HttpException(
+                'пароль слишком короткий', HttpStatus.UNPROCESSABLE_ENTITY
+            );
+        }
         const userByEmail = await this.userRepository.findOne({
             where: {
                 email: createUserDto.email
@@ -76,25 +90,54 @@ export class UserService {
         });
     }
 
+    async findById(id: number): Promise<UserEntity> {
+        return this.userRepository.findOne({ where: { id } });
+    }
+
     // async findById(id: number): Promise<any> {
     //     return this.userRepository.findOne(id);
     // }
 
-    async changeUser(changeUser: any, email): Promise<{ email: string, nickname: string }> {
-        const user = await this.userRepository.findOne({
-            where: { email },
-            select: ['id','email', 'password', 'nickname']
+    async changeUser(changeUser: any, id): Promise<{ email: string, nickname: string }> {
+        // const user = await this.userRepository.findOne({
+        //     where: { email },
+        //     select: ['id', 'email', 'password', 'nickname']
+        // });
+
+        const userByEmail = await this.userRepository.findOne({
+            where: {
+                email: changeUser.email
+            }
         });
+        const userByUsername = await this.userRepository.findOne({
+            where: {
+                email: changeUser.nickname
+            }
+        });
+
+        if (userByEmail || userByUsername) {
+            throw new HttpException(
+                'на такие данные заменить нильзя !)', HttpStatus.UNPROCESSABLE_ENTITY
+            );
+        }
+
+        const user = await this.userRepository.findOne({ where: { id },
+            select: ['id', 'uuid', 'email', 'password', 'nickname'] });
         // console.log(user.id, 'ID');
         // const currendUser = await this.findById(user.id);
-        // Object.assign(user, changeUser);
         // await this.userRepository.delete(user.id);
-        return await this.userRepository.save({...user});
-         
+        Object.assign(user, changeUser);
+        return await this.userRepository.save(user);
+
+    }
+
+    async findUser(uuid): Promise<UserEntity> {
+        return this.userRepository.findOne({ where: { uuid } });
     }
 
     generateJWT(user: UserEntity): string {
         return sign({
+            "id": user.id,
             "email": user.email,
             "nickname": user.nickname
         }, 'secrretkey')

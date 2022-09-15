@@ -6,11 +6,11 @@ export class TagEntity{
     id: number;
 
     @Column()
-    creator: number;
+    creator: string;
 
     @Column()
     name: string;
 
     @Column()
-    sortOrder: number;
+    sortOrder: string;
 }
